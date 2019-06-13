@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Users extends Model
 {
     //自动补充时间
     public $timestamps = true;

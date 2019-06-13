@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Model\User;
+use App\Model\Users;
 
 class BaseController extends Controller
 {
@@ -12,7 +12,7 @@ class BaseController extends Controller
     public function __construct(){
         $this->middleware(function($request, $next){
             $this->openid = session('wechat.oauth_user.default.id');
-            $user = new User();
+            $user = new Users();
             $user->opendi = $this->openid;  //新增或更新用户信息
             if ($user->save()){
                 return $next($request);
