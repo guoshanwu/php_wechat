@@ -14,7 +14,7 @@ class UploadController extends Controller
         if ($file->isValid()){
             $ext = $file->getClientOriginalExtension(); //文件后缀
             $savename = md5(uniqid()) . '.' . $ext; //保存名称
-            $url = '/' . date('Ymd') . '/' . $savename; //图片地址
+            $url = '/uploads/' . date('Ymd') . '/' . $savename; //图片地址
             //图片上传
             $bool = Storage::disk('uploadimg')->put($url, file_get_contents($file->getRealPath()));
             if (!$bool){

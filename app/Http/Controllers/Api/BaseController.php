@@ -10,7 +10,6 @@ class BaseController extends Controller
     protected $openid;
 
     public function __construct(){
-	dd(111);
         $this->middleware(function($request, $next){
             $this->openid = session('wechat.oauth_user.default.id');
             dd($this->openid);
