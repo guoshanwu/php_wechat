@@ -13,7 +13,8 @@ class BaseController extends Controller
         $this->middleware(function($request, $next){
             $this->openid = session('wechat.oauth_user.default.id');
             $user = new Users();
-            $user->openid = $this->openid;  //新增或更新用户信息
+            $userInfo = $user->find($this->openid);
+            !empty($userInfo) && $user->openid = $this->openid;  //第一次登陆
             if ($user->save()){
                 return $next($request);
             }
