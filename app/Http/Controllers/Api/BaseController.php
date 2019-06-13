@@ -14,13 +14,13 @@ class BaseController extends Controller
 	    $this->openid = session('wechat.oauth_user.default.id');
             $user = Users::find($this->openid);
             if (empty($user)){
-		//第一次登陆,新增用户
+		        //第一次登陆,新增用户
                 $user = new Users();
                 $user->openid = $this->openid;
             }else{
-		//已存在,更新登陆时间
-		$user->updated_at = date('Y-m-d H:i:s');
-	    }
+		        //已存在,更新登陆时间
+		        $user->updated_at = date('Y-m-d H:i:s');
+	        }
             if ($user->save()){
                 return $next($request);
             }
