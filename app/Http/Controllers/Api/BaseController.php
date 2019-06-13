@@ -12,12 +12,9 @@ class BaseController extends Controller
     public function __construct(){
         $this->middleware(function($request, $next){
             $this->openid = session('wechat.oauth_user.default.id');
-            $user = new Users();
-            $id = $user->where('openid', $this->openid)->value('openid');
-            empty($id) && $user->openid = $this->openid;
-            if ($user->save()){
-                return $next($request);
-            }
+            $userInfo = Users::find($this->openid);
+            dd($userInfo);
+            return $next($request);
         });
     }
 
