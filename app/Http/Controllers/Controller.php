@@ -57,8 +57,10 @@ class Controller extends BaseController
      * @return array
      */
     public function getPage() {
-        $page = $this->request->input('page', 1);
-        $list_rows = $this->request->input('limit', 10);
+//        $page = $this->request->input('page', 1);
+//        $list_rows = $this->request->input('limit', 10);
+        $page = 1;
+        $list_rows = 10;
         return [
             'list_rows' => $list_rows,
             'page' => $page

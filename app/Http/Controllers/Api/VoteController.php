@@ -11,10 +11,10 @@ class VoteController extends BaseController
      */
     public function voteList(){
         $where['status']  = 1;
-        $this->getKeywords() && $where['name'] = $this->getKeywords();  //搜索
+//        $this->getKeywords() && $where['name'] = $this->getKeywords();  //搜索
         $page = $this->getPage();   //分页
         $field = 'id, openid, num, name, remark';
-        $result = VoteUser::where($where)->select($field)->limit($page)->get();
+        $result = VoteUser::where($where)->select($field)->paginate($page)->get();
         return $this->sendJson($result);
     }
 
