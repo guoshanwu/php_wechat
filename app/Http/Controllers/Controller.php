@@ -70,7 +70,7 @@ class Controller extends BaseController
      * @return mixed
      */
     public function getKeywords() {
-        $keywords = request()->param('search_text', '', 'trim');
+        $keywords = $this->request->input('search_text', '', 'trim');
         return $keywords;
     }
 }
