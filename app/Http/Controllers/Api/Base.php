@@ -9,14 +9,13 @@ use App\Model\User;
 
 class Base extends Controller
 {
-
     protected $request;
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
         $this->middleware(function($request, $next){
-//	        $this->openid = session('wechat.oauth_user.default.id');
-            $this->openid = 'o2nfu56MsF1W4nUyX1aQgp8k_fi0';
+	        $this->openid = session('wechat.oauth_user.default.id');
+//            $this->openid = 'o2nfu56MsF1W4nUyX1aQgp8k_fi0';
             $user = User::find($this->openid);
             if (empty($user)){
                 //第一次登陆,新增用户

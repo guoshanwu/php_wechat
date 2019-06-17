@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\Image;
 use App\Model\VoteUser;
+use App\Http\Requests\Vote as VoteValidator;
+use Illuminate\Support\Facades\Log;
 
 class Vote extends Base
 {
     /**
-     * @api {post} api/Vote/index  投票列表[api/Vote/index]
+     * @api {get} api/Vote/index  投票列表[api/Vote/index]
      * @apiName index
      * @apiGroup Vote
      * @apiSampleRequest api/Vote/index
@@ -71,7 +72,7 @@ class Vote extends Base
     }
 
     /**
-     * @api {post} api/Vote/show  详情[api/Vote/show]
+     * @api {get} api/Vote/show  详情页面[api/Vote/show]
      * @apiName show
      * @apiGroup Vote
      * @apiSampleRequest api/Vote/show
@@ -119,6 +120,93 @@ class Vote extends Base
         }
         unset($data['images_ids']);
         return $this->sendSuccess($data);
+    }
+
+    /**
+     * @api {post} api/Vote/store  新建数据[api/Vote/store]
+     * @apiName store
+     * @apiGroup Vote
+     * @apiSampleRequest api/Vote/store
+     *
+     * @apiParam {array}   images_ids   图片id数组
+     * @apiParam {string}   name   姓名
+     * @apiParam {string}   mobile   电话号码
+     * @apiParam {string}   [remark]   备注
+     *
+     */
+
+    public function store(){
+        try{
+            //数据验证
+            $validator = (new VoteValidator())->storeValidator($this->request->input());
+            if ($validator['code'] == -1){
+                return $this->sendError($validator['msg']);
+            }
+            //一个用户只能参与一次活动
+            $userInfo = VoteUser::where('openid', $this->openid)->first();
+            if (!empty($userInfo)){
+                return $this->sendError('用户信息已存在,不能重复参与活动');
+            }
+            //新增数据
+            $voteUser = new VoteUser();
+            $voteUser->openid = $this->openid;
+            $voteUser->images_ids = implode(',', $this->request->input('images_ids'));
+            $voteUser->name = $this->request->input('name');
+            $voteUser->mobile = $this->request->input('mobile');
+            $voteUser->remark = $this->request->input('remark');
+            if (!$voteUser->save()){
+                return $this->sendError('报名失败,请稍后重试!');
+            }
+            return $this->sendSuccess();
+        }catch (\Exception $e){
+            Log::error($e->getMessage());
+            return $this->sendError($e->getMessage());
+        }
+    }
+
+    /**
+     * @api {get} api/Vote/update  编辑数据[api/Vote/update]
+     * @apiName update
+     * @apiGroup Vote
+     * @apiSampleRequest api/Vote/update
+     *
+     * @apiParam {int}   id   ID
+     * @apiParam {string}   openid   openid
+     * @apiParam {array}   images_ids   图片id数组
+     * @apiParam {string}   name   姓名
+     * @apiParam {string}   mobile   电话号码
+     * @apiParam {string}   [remark]   备注
+     *
+     */
+    public function update(){
+        try{
+            //数据验证
+            $validator = (new VoteValidator())->updateValidator($this->request->input());
+            if ($validator['code'] == -1){
+                return $this->sendError($validator['msg']);
+            }
+            if ($this->openid != $this->request->input('openid')){
+                return $this->sendError('只能编辑自己的活动信息');
+            }
+            $userInfo = VoteUser::where('id', $this->request->input('id'))
+                ->where('openid', $this->request->input('openid'))
+                ->first();
+            if (empty($userInfo)){
+                return $this->sendError('未找到数据');
+            }
+            //更新数据
+            $userInfo->images_ids = implode(',', $this->request->input('images_ids'));
+            $userInfo->name = $this->request->input('name');
+            $userInfo->mobile = $this->request->input('mobile');
+            $userInfo->remark = $this->request->input('remark');
+            if (!$userInfo->save()){
+                return $this->sendError('编辑失败,请稍后重试');
+            }
+            return $this->sendSuccess();
+        }catch (\Exception $e){
+            Log::error($e->getMessage());
+            return $this->sendError($e->getMessage());
+        }
     }
 
 }

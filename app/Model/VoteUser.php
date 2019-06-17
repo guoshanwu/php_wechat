@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Model;
 
 class VoteUser extends Model
