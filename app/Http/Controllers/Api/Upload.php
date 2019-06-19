@@ -11,14 +11,36 @@ use OSS\Core\OssException;
 
 class Upload extends Controller
 {
-    public function upload(Request $request, Image $image){
-        $file = $request->file('image');
+    /**
+     * @api {post} api/Upload/upload  上传[api/Upload/upload]
+     * @apiName upload
+     * @apiGroup Upload
+     * @apiSampleRequest api/Upload/upload
+     *
+     * @apiParam {string}  file 图片/文件
+     *
+     */
+    public function upload(Request $request){
+        $file = $request->file('file');
+        if (empty($file)){
+            return response()->json(['code' => -1, 'msg' => '上传文件不能为空']);
+        }
+        return response()->json($this->comUpload($file));
+    }
+
+    /**
+     * 上传图片
+     * @param $file
+     * @param string $path  路径,默认uploads/..
+     * @return array|\Illuminate\Http\JsonResponse
+     */
+    public function comUpload($file, $path = 'uploads/'){
         //判断文件是否上传成功
         if ($file->isValid()){
             $ext = $file->getClientOriginalExtension(); //文件后缀
             $name = md5(uniqid());
             $savename = $name . '.' . $ext; //保存名称
-            $url = 'uploads/' . date('Ymd') . '/' . $savename; //图片地址   //图片上传到阿里云,路径不能以'/'开头
+            $url = $path . date('Ymd') . '/' . $savename; //图片地址   //图片上传到阿里云,路径不能以'/'开头
             //图片上传
             $bool = Storage::disk('uploadimg')->put($url, file_get_contents($file->getRealPath()));
             if (!$bool){
@@ -31,6 +53,7 @@ class Upload extends Controller
             if ($ossResult['code'] == -1){
                 return response()->json(['code' => -1, 'msg' => $ossResult['msg']]);
             }
+            $image = new Image();
             $image->name = $file->getClientOriginalName(); //原始文件名
             $image->savename = $savename;
             $image->url = $url;
@@ -39,10 +62,10 @@ class Upload extends Controller
             $image->size = $file->getClientSize();   //文件大小
             $result = $image->save();
             if ($result){
-                return response()->json(['code' => 1, 'data' => ['id' => $image->id, 'url' => env('OSSURL').$url]]);
+                return ['code' => 1, 'data' => ['id' => $image->id, 'url' => env('OSSURL').$url]];
             }
         }
-        return response()->json(['code' => -1, 'msg' => '上传失败'.$file->getErrorMessage()]);
+        return ['code' => -1, 'msg' => '上传失败,'.$file->getErrorMessage()];
     }
 
 
