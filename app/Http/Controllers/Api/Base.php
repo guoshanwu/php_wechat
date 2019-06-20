@@ -15,7 +15,7 @@ class Base extends Controller
         $this->request = $request;
         $this->middleware(function($request, $next){
 	        $this->openid = session('wechat.oauth_user.default.id');
-//            $this->openid = 'o2nfu56MsF1W4nUyX1aQgp8k_fi0';
+            $this->openid = 'o2nfu56MsF1W4nUyX1aQgp8k_fi0';
             $user = User::find($this->openid);
             if (empty($user)){
                 //第一次登陆,新增用户
@@ -44,7 +44,7 @@ class Base extends Controller
         if($method === 'jsonp' && $callback)
             return Response()->jsonp($callback, ['code' => -1, 'msg' => $message ? $message : '失败']);
 
-        $headers = ['content-type' => 'application/json'];
+        $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
         return Response()->json(['code' => -1, 'msg' => $message ? $message : '失败'])
             ->withHeaders($headers);
     }
@@ -54,15 +54,15 @@ class Base extends Controller
      * @param array $data
      * @return $this|\Illuminate\Http\JsonResponse
      */
-    public function sendSuccess($data = []){
+    public function sendSuccess($data = [], $message = '成功'){
         $method   = $this->request->input('method');
         $callback = $this->request->input('callback');
 
         if($method === 'jsonp' && $callback)
-            return Response()->jsonp($callback, ['code' => 1, 'data' => $data]);
+            return Response()->jsonp($callback, ['code' => 1, 'data' => $data, 'msg' => $message]);
 
-        $headers = ['content-type' => 'application/json'];
-        return Response()->json(['code' => 1, 'data' => $data])
+        $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
+        return Response()->json(['code' => 1, 'data' => $data, 'msg' => $message])
             ->withHeaders($headers);
     }
 

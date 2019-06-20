@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\VoteRecord;
 use App\Model\VoteUser;
 use App\Http\Requests\Vote as VoteValidator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Vote extends Base
@@ -204,6 +206,53 @@ class Vote extends Base
             }
             return $this->sendSuccess();
         }catch (\Exception $e){
+            Log::error($e->getMessage());
+            return $this->sendError($e->getMessage());
+        }
+    }
+
+    /**
+     * @api {post} api/Vote/castVote  投票[api/Vote/castVote]
+     * @apiName castVote
+     * @apiGroup Vote
+     * @apiSampleRequest api/Vote/castVote
+     *
+     * @apiParam {int}   id   ID
+     * @apiParam {string}   openid   openid
+     *
+     */
+    public function castVote(){
+        $id = $this->request->input('id');
+        $openid = $this->request->input('openid');
+        if (empty($id) || empty($openid)){
+            return $this->sendError('缺少参数');
+        }
+        $date = date('Y-m-d');
+        $voteInfo = VoteRecord::where(['vote_openid' => $this->openid, 'vote_date' => $date])->first();
+        if (!empty($voteInfo)){
+            return $this->sendError('您今天已投出你圣神的一票,每个用户每天只能投一票');
+        }
+        DB::beginTransaction();
+        try{
+            //投票记录表添加一条数据
+            $voteRecord = new VoteRecord();
+            $voteRecord->vote_openid = $this->openid;   //投票人id
+            $voteRecord->bevote_openid = $openid;       //被投票人id
+            $voteRecord->vote_date = $date; //投票时间
+            if (!$voteRecord->save()){
+                DB::rollBack();
+                return $this->sendError('投票失败,请稍后重试');
+            }
+            //投票数量+1
+            $result = VoteUser::where(['id' => $id, 'openid' => $openid])->increment('num');
+            if (!$result){
+                DB::rollBack();
+                return $this->sendError('投票失败,请稍后重试');
+            }
+            DB::commit();
+            return $this->sendSuccess([], '投票成功');
+        }catch (\Exception $e){
+            DB::rollBack();
             Log::error($e->getMessage());
             return $this->sendError($e->getMessage());
         }
