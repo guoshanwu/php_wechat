@@ -48,7 +48,6 @@ class Vote extends Base
      */
 
     public function index(){
-        $where['status']  = 1;
         $this->getKeywords() && $where['name'] = $this->getKeywords();  //搜索
         $page = $this->getPage();   //分页
         //排序
@@ -57,6 +56,7 @@ class Vote extends Base
         if (!empty($isRanking) && $isRanking == 1){
             $orderBy = 'num desc';
         }
+        $where['status']  = 1;
         $data = VoteUser::select('id', 'openid', 'images_ids', 'num', 'name')
             ->where($where)
             ->orderByRaw($orderBy)  //orderByRaw兼容写法
@@ -70,7 +70,7 @@ class Vote extends Base
             }
             unset($data['data'][$k]['images_ids']);
         }
-        return $this->sendSuccess(['total' => $data['total'], 'list' => $data['data']]);
+        return $this->sendSuccess(['last_page' => $data['last_page'], 'list' => $data['data']]);
     }
 
     /**

@@ -97,7 +97,7 @@ class Base extends Controller
         }
         $data = [];
         foreach($ids as $v){
-            $data[] = storage_path(env('UPLOADIMG')) . Image::where('id', $v)->value('url');
+            $data[] = env('OSSURL') . Image::where('id', $v)->value('url');
         }
         return $data;
     }
