@@ -41,12 +41,12 @@ class Base extends Controller
         $method   = $this->request->input('method');
         $callback = $this->request->input('callback');
 
-        if($method === 'jsonp' && $callback)
-            return Response()->jsonp($callback, ['code' => -1, 'msg' => $message ? $message : '失败']);
-
         $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
-        return Response()->json(['code' => -1, 'msg' => $message ? $message : '失败'])
-            ->withHeaders($headers);
+
+        if($method === 'jsonp' && $callback)
+            return Response()->jsonp($callback, ['code' => -1, 'msg' => $message ? $message : '失败'])->withHeaders($headers);
+
+        return Response()->json(['code' => -1, 'msg' => $message ? $message : '失败'])->withHeaders($headers);
     }
 
     /**
@@ -58,12 +58,12 @@ class Base extends Controller
         $method   = $this->request->input('method');
         $callback = $this->request->input('callback');
 
-        if($method === 'jsonp' && $callback)
-            return Response()->jsonp($callback, ['code' => 1, 'data' => $data, 'msg' => $message]);
-
         $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
-        return Response()->json(['code' => 1, 'data' => $data, 'msg' => $message])
-            ->withHeaders($headers);
+
+        if($method === 'jsonp' && $callback)
+            return Response()->jsonp($callback, ['code' => 1, 'data' => $data, 'msg' => $message])->withHeaders($headers);
+
+        return Response()->json(['code' => 1, 'data' => $data, 'msg' => $message])->withHeaders($headers);
     }
 
     /**
