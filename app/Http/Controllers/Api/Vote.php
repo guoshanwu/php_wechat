@@ -66,7 +66,8 @@ class Vote extends Base
         foreach($data['data'] as $k => $v){
             if (!empty($v['images_ids'])){
                 $imagesId = explode(',', $v['images_ids']);
-                $data['data'][$k]['url'] = $this->getImagesUrl($imagesId[0]);
+                $data['data'][$k]['show_url'] = $this->getImagesUrl($imagesId[0])[0];
+                $data['data'][$k]['all_url'] = $this->getImagesUrl($imagesId);
             }
             unset($data['data'][$k]['images_ids']);
         }
