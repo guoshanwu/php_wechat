@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Log;
 class Vote extends Base
 {
     /**
-     * @api {get} api/Vote/index  投票列表[api/Vote/index]
-     * @apiName index
-     * @apiGroup Vote
-     * @apiSampleRequest api/Vote/index
+     * @api {get} api/Vote  投票列表
      *
      * @apiParam {int}   [is_ranking=1] 是否排名 1:是(高到低)
      * @apiParam {string}   [search_text]   搜索条件
@@ -75,10 +72,7 @@ class Vote extends Base
     }
 
     /**
-     * @api {get} api/Vote/show  详情页面[api/Vote/show]
-     * @apiName show
-     * @apiGroup Vote
-     * @apiSampleRequest api/Vote/show
+     * @api {get} api/Vote/{id}/edit  展示编辑页面
      *
      * @apiParam {int}   id ID
      * @apiParam {string}   openid   openid
@@ -103,7 +97,7 @@ class Vote extends Base
             },
         }
      */
-    public function show(){
+    public function edit(){
         $id = $this->request->input('id');
         $openid = $this->request->input('openid');
         if (empty($id) || empty($openid)){
@@ -126,10 +120,7 @@ class Vote extends Base
     }
 
     /**
-     * @api {post} api/Vote/store  新建数据[api/Vote/store]
-     * @apiName store
-     * @apiGroup Vote
-     * @apiSampleRequest api/Vote/store
+     * @api {post} api/Vote  新建数据
      *
      * @apiParam {array}   images_ids   图片id数组
      * @apiParam {string}   name   姓名
@@ -168,10 +159,7 @@ class Vote extends Base
     }
 
     /**
-     * @api {get} api/Vote/update  编辑数据[api/Vote/update]
-     * @apiName update
-     * @apiGroup Vote
-     * @apiSampleRequest api/Vote/update
+     * @api {put/pathch} api/Vote/{id}  保存编辑数据
      *
      * @apiParam {int}   id   ID
      * @apiParam {string}   openid   openid
@@ -181,7 +169,7 @@ class Vote extends Base
      * @apiParam {string}   [remark]   备注
      *
      */
-    public function update(){
+    public function save(){
         try{
             //数据验证
             $validator = (new VoteValidator())->updateValidator($this->request->input());
