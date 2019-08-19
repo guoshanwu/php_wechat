@@ -9,7 +9,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Api', 'middleware' => 'cors' /*,'middleware' => 'wechat.oauth:snsapi_base'*/], function () {
+Route::group(['namespace' => 'Api', 'middleware' => 'cors' ,'middleware' => 'wechat.oauth:snsapi_base'], function () {
     Route::get('Banner', 'Banner@index');   //Banner
     Route::resource('Vote', 'Vote');    //vote所有接口
     Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
