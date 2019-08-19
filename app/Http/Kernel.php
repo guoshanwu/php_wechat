@@ -19,7 +19,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \App\Http\Middleware\CrossHttp::class,
     ];
 
     /**
@@ -43,7 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             'throttle:60,1',
             'bindings',
-            'cors',
+            \Barryvdh\Cors\HandleCors::class,   //跨域
         ],
     ];
 
@@ -66,8 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         //wechat
         'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
-        //跨域
-        'cors' => \App\Http\Middleware\CrossHttp::class,
     ];
 
     /**
