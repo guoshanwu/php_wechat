@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Api', 'middleware' => ['wechat.oauth:snsapi_base']
 });
 
 Route::group(['namespace' => 'Api'], function(){
+    Route::any('Wechat', 'Wechat@index');   //微信授权
     Route::get('Banner', 'Banner@index');   //Banner
     Route::get('Vote', 'Vote@index');   //列表
     Route::post('Upload/upload', 'Upload@upload');   //图片上传
