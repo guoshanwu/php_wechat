@@ -13,21 +13,21 @@ class Base extends Controller
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
-        $this->middleware(function($request, $next){
-	        $this->openid = session('wechat.oauth_user.default.id');
-            $user = User::find($this->openid);
-            if (empty($user)){
-                //第一次登陆,新增用户
-                $user = new User();
-                $user->openid = $this->openid;
-            }else{
-                //已存在,更新登陆时间
-                $user->updated_at = date('Y-m-d H:i:s');
-            }
-            if ($user->save()){
-                return $next($request);
-            }
-        });
+//        $this->middleware(function($request, $next){
+//	        $this->openid = session('wechat.oauth_user.default.id');
+//            $user = User::find($this->openid);
+//            if (empty($user)){
+//                //第一次登陆,新增用户
+//                $user = new User();
+//                $user->openid = $this->openid;
+//            }else{
+//                //已存在,更新登陆时间
+//                $user->updated_at = date('Y-m-d H:i:s');
+//            }
+//            if ($user->save()){
+//                return $next($request);
+//            }
+//        });
     }
 
     /**
