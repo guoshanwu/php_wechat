@@ -10,7 +10,6 @@
 |
 */
 Route::group(['namespace' => 'Api', 'middleware' => ['wechat.oauth:snsapi_base']], function () {
-//    Route::resource('Vote', 'Vote');    //vote所有接口
     Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
 });
 

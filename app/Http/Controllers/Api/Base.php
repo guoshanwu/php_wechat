@@ -13,6 +13,7 @@ class Base extends Controller
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
+        $this->openid = session('wechat.oauth_user.default.id');
 //        $this->middleware(function($request, $next){
 //	        $this->openid = session('wechat.oauth_user.default.id');
 //            $user = User::find($this->openid);
