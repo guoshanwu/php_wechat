@@ -10,13 +10,13 @@
 |
 */
 Route::group(['namespace' => 'Api', 'middleware' => ['wechat.oauth:snsapi_base']], function () {
-    Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
+    Route::any('index', 'Index@index'); //展示前端
 });
 
 Route::group(['namespace' => 'Api'], function(){
-    Route::any('index', 'Index@index'); //展示前端
     Route::get('Banner', 'Banner@index');   //Banner
     Route::get('Vote', 'Vote@index');   //列表
+    Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
     Route::post('Upload/upload', 'Upload@upload');   //图片上传
 });
 
