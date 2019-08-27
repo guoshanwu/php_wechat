@@ -11,7 +11,7 @@ class Base extends Controller
     protected $request;
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
-//        $this->request = $request;
+        $this->request = $request;
 //        $this->middleware(function($request, $next){
 //	        $token = $this->request->header('token');
 //            if (empty($token)){
