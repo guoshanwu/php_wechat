@@ -11,16 +11,16 @@ class Base extends Controller
     protected $request;
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
-        $this->request = $request;
-        $this->middleware(function($request, $next){
-	        $token = $this->request->header('token');
-            if (empty($token)){
-                //token时间过期,重新跳到授权页面
-                return redirect('/api/index');
-            }
-            $this->openid = session('wechat.oauth_user.default.id');
-            return $next($request);
-        });
+//        $this->request = $request;
+//        $this->middleware(function($request, $next){
+//	        $token = $this->request->header('token');
+//            if (empty($token)){
+//                //token时间过期,重新跳到授权页面
+//                return redirect('/api/index');
+//            }
+//            $this->openid = session('wechat.oauth_user.default.id');
+//            return $next($request);
+//        });
     }
 
     /**
