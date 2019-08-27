@@ -7,7 +7,11 @@ use App\Http\Controllers\Controller;
 class Index extends Controller
 {
     public function index(){
-        dd(111);
+        dd(session('wechat.oauth_user.default'));
+    }
+
+    public function getOpenid(){
+        dd(session('wechat.oauth_user.default'));
     }
 
 }
