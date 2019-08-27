@@ -11,7 +11,7 @@ class Index extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
-        return response()->json(['code' => 1, 'token' => 'wechat.oauth_user.default.token']);
+        return response()->json(['code' => 1, 'token' => session('wechat.oauth_user.default.token')]);
     }
 
 }
