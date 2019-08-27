@@ -14,8 +14,4 @@ class Index extends Controller
         return response()->json(['code' => 1, 'token' => 'wechat.oauth_user.default.token']);
     }
 
-    public function mssg(){
-        dd('successs');
-    }
-
 }
