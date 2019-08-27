@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 
 class Index extends Controller
 {
+    /**
+     * 微信授权 返回token给前端
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(){
-        dd(session('wechat.oauth_user.default'));
+        return response()->json(['code' => 1, 'token' => 'wechat.oauth_user.default.token']);
     }
 
-    public function getOpenid(){
-        dd(session('wechat.oauth_user.default'));
+    public function mssg(){
+        dd('successs');
     }
 
 }
