@@ -9,13 +9,13 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Api', 'middleware' => ['wechat.oauth:snsapi_base']], function () {
-    Route::any('Wechat', 'Wechat@index'); //授权
+Route::group(['namespace' => 'Api'/*, 'middleware' => ['wechat.oauth:snsapi_base']*/], function () {
+    Route::any('Wechat/index', 'Wechat@index'); //授权
 });
 
 Route::group(['namespace' => 'Api'], function(){
-    Route::get('Banner', 'Banner@index');   //Banner
-    Route::get('Vote', 'Vote@index');   //列表
+    Route::get('Banner/index', 'Banner@index');   //Banner
+    Route::get('Vote/index', 'Vote@index');   //列表
     Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
     Route::post('Upload/upload', 'Upload@upload');   //图片上传
 });
