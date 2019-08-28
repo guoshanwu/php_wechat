@@ -11,9 +11,9 @@ class Wechat extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
-        header('Access-Control-Allow-Origin: *');
-        $code = request()->input('code');
-        dd($code);
+//        header('Access-Control-Allow-Origin: *');
+//        $code = request()->input('code');
+//        dd($code);
         return response()->json(['token' => session('wechat.oauth_user.default.token')]);
     }
 
