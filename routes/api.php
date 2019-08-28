@@ -10,7 +10,7 @@
 |
 */
 Route::group(['namespace' => 'Api'/*, 'middleware' => ['wechat.oauth:snsapi_base']*/], function () {
-    Route::any('index', 'Index@index'); //授权
+    Route::any('Index', 'Index@index'); //授权
 });
 
 Route::group(['namespace' => 'Api'], function(){
