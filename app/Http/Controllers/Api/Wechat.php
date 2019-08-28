@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-class Index extends Controller
+class Wechat extends Controller
 {
     /**
-     * 微信授权 返回token给前端
+     * 微信授权
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
-        $input = request()->input();
-        dd($input);
+        header('Access-Control-Allow-Origin: *');
         return response()->json(['token' => session('wechat.oauth_user.default.token')]);
     }
 
