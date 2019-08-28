@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
-class Wechat extends Controller
+class Wechat extends Base
 {
     /**
      * 微信授权
