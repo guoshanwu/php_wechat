@@ -9,7 +9,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Api'], function () {
+Route::group(['namespace' => 'Api', ['middleware' => ['api']]], function () {
     Route::any('Wechat/index', 'Wechat@index'); //微信授权
     Route::get('Banner/index', 'Banner@index');   //Banner
     Route::get('Vote/index', 'Vote@index');   //列表

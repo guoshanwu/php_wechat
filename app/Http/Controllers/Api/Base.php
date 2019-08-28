@@ -13,6 +13,8 @@ class Base extends Controller
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
         $token = $this->request->header('token');
+        header('Access-Control-Allow-Origin:*');
+        dd(session('openid'));
         if (empty($token) || $token != session('access_token')){
             return redirect('http://web.tenstudio.top');    //重新授权
         }
