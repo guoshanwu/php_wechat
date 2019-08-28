@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Model\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
 
 class Base extends Controller
 {
@@ -14,8 +13,6 @@ class Base extends Controller
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
         $token = $this->request->header('token');
-        header('Access-Control-Allow-Origin:*');
-        dd(Session::get('openid'));
         if (empty($token) || $token != session('access_token')){
             return redirect('http://web.tenstudio.top');    //重新授权
         }

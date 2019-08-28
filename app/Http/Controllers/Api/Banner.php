@@ -15,6 +15,7 @@ class Banner extends Base
      *
      */
     public function index(){
+        session(['test' => 'sdsdsd123']);
         $result = Banners::select('id', 'savename', 'url')->where('status', 1)->orderBy('sort', 'desc')->get();
         foreach($result as $k => $v){
             $result[$k]['url'] = env('OSSURL').$v['url'];

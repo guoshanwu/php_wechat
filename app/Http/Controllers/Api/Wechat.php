@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class Wechat extends Controller
 {
@@ -23,8 +22,7 @@ class Wechat extends Controller
             $result = $result->getBody();
             $result = json_decode($result, true);
             //存入到session
-            Session::put('openid', $result['openid']);
-//            session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
+            session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
             return response()->json(['code' => 1, 'access_token' => $result['access_token']]);
         } catch(\Exception $e) {
             Log::error($e->getMessage());

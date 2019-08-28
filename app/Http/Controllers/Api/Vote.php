@@ -45,6 +45,8 @@ class Vote extends Base
      */
 
     public function index(){
+        header('Access-Control-Allow-Origin:*');
+        dd(session('test'));
         $this->getKeywords() && $where['name'] = $this->getKeywords();  //搜索
         $page = $this->getPage();   //分页
         //排序
