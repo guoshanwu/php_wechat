@@ -12,8 +12,7 @@ class Base extends Controller
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
-        $token = $this->request->header('Access_Token');
-        dd($token);
+        $token = $this->request->header('token');
         if (!empty($token) && $token == session('access_token')){
             $this->openid = session('openid');
         }
@@ -32,9 +31,7 @@ class Base extends Controller
         if($method === 'jsonp' && $callback)
             return Response()->jsonp($callback, ['code' => -1, 'msg' => $message ? $message : '失败']);
 
-        $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
-        return Response()->json(['code' => -1, 'msg' => $message ? $message : '失败'])
-            ->withHeaders($headers);
+        return Response()->json(['code' => -1, 'msg' => $message ? $message : '失败']);
     }
 
     /**
@@ -49,9 +46,7 @@ class Base extends Controller
         if($method === 'jsonp' && $callback)
             return Response()->jsonp($callback, ['code' => 1, 'data' => $data, 'msg' => $message]);
 
-        $headers = ['content-type' => 'application/json', 'Access-Control-Allow-origin' => '*'];
-        return Response()->json(['code' => 1, 'data' => $data, 'msg' => $message])
-            ->withHeaders($headers);
+        return Response()->json(['code' => 1, 'data' => $data, 'msg' => $message]);
     }
 
     /**
