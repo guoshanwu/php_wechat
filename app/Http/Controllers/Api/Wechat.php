@@ -13,7 +13,6 @@ class Wechat extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
-        header('Access-Control-Allow-Origin: *');
         $code = request()->input('code');
         // 通过 code 获取 open_id
         $client = new Client();

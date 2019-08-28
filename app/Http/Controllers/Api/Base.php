@@ -12,7 +12,7 @@ class Base extends Controller
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
-        $token = $this->request->header('access_token');
+        $token = $this->request->header('Access_Token');
         if (!empty($token) && $token == session('access_token')){
             $this->openid = session('openid');
         }
