@@ -16,7 +16,7 @@ class Base extends Controller
 	        $token = $this->request->header('token');
             if (empty($token)){
                 //token时间过期,重新跳到授权页面
-                return redirect('/api/Wechat/index');
+                return redirect('/api/Wechat');
             }
             $this->openid = session('wechat.oauth_user.default.id');
             return $next($request);
