@@ -20,7 +20,7 @@ class Wechat extends Controller
         try {
             $result = $client->request('GET', $url, ['timeout' => 1.5]);
             $result = $result->getBody();
-            $result = json_decode($result);
+            $result = json_decode($result, true);
             //存入到session
             session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
             return response()->json(['code' => 1, 'access_token' => $result['access_token']]);
