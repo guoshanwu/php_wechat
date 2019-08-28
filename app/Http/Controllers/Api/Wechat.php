@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
-class Wechat extends Base
+class Wechat extends Controller
 {
     /**
      * 微信授权
@@ -21,7 +23,8 @@ class Wechat extends Base
             $result = $result->getBody();
             $result = json_decode($result, true);
             //存入到session
-            session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
+            Session::put('openid', $result['openid']);
+//            session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
             return response()->json(['code' => 1, 'access_token' => $result['access_token']]);
         } catch(\Exception $e) {
             Log::error($e->getMessage());
