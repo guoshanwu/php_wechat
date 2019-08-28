@@ -7,10 +7,7 @@ use App\Model\Banners;
 class Banner extends Base
 {
     /**
-     * @api {get} api/Banner/index  轮播图[api/Banner/index]
-     * @apiName index
-     * @apiGroup Banner
-     * @apiSampleRequest api/Banner/index
+     * @api {get} api/Banner/index  轮播图
      *
      * @apiSuccess {int}  id ID
      * @apiSuccess {string} savename   图片名称

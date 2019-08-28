@@ -13,6 +13,7 @@ class Base extends Controller
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
         $token = $this->request->header('Access_Token');
+        dd($token);
         if (!empty($token) && $token == session('access_token')){
             $this->openid = session('openid');
         }

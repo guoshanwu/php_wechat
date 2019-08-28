@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 class Vote extends Base
 {
     /**
-     * @api {get} api/Vote  投票列表
+     * @api {get} api/Vote/index  投票列表
      *
      * @apiParam {int}   [is_ranking=1] 是否排名 1:是(高到低)
      * @apiParam {string}   [search_text]   搜索条件
