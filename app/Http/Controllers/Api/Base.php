@@ -12,11 +12,11 @@ class Base extends Controller
     protected $openid;
     public function __construct(Request $request){  //每次登陆都更新
         $this->request = $request;
-        $token = $this->request->header('token');
-        if (empty($token) || $token != session('access_token')){
+        $openid = $this->request->header('openid');
+        if (empty($openid)){
             return redirect('http://web.tenstudio.top');    //重新授权
         }
-        $this->openid = session('openid');
+        $this->openid = $openid;
     }
 
     /**

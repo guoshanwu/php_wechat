@@ -21,9 +21,7 @@ class Wechat extends Controller
             $result = $client->request('GET', $url, ['timeout' => 1.5]);
             $result = $result->getBody();
             $result = json_decode($result, true);
-            //存入到session
-            session(['access_token' => $result['access_token'], 'openid' => $result['openid']]);
-            return response()->json(['code' => 1, 'access_token' => $result['access_token']]);
+            return response()->json(['code' => 1, 'openid' => $result['openid']]);
         } catch(\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['code' => -1, 'msg' => $e->getMessage()]);
