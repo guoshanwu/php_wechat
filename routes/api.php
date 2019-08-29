@@ -15,4 +15,5 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('Vote/index', 'Vote@index');   //列表
     Route::post('Vote/castVote', 'Vote@castVote');  //点击投票
     Route::post('Upload/upload', 'Upload@upload');   //图片上传
+    Route::post('Vote', 'Vote@store');   //提交(参加活动)
 });
