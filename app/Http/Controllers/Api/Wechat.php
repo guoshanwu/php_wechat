@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Model\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
@@ -21,6 +22,15 @@ class Wechat extends Controller
             $result = $client->request('GET', $url, ['timeout' => 1.5]);
             $result = $result->getBody();
             $result = json_decode($result, true);
+            $openid = $result['openid'];    //openid
+            $userInfo = User::where(['openid' => $openid])->first();
+            if (empty($userInfo)){
+                //第一次授权,新增用户
+                $userInfo->openid = $openid;
+            }
+            if(!$userInfo->save()){
+                return response()->json(['code' => 1, 'msg' => '用户登录失败']);
+            }
             return response()->json(['code' => 1, 'openid' => $result['openid']]);
         } catch(\Exception $e) {
             Log::error($e->getMessage());
