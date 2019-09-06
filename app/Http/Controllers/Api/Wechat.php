@@ -23,13 +23,17 @@ class Wechat extends Controller
             $result = $result->getBody();
             $result = json_decode($result, true);
             $openid = $result['openid'];    //openid
+            //更新用户信息
             $userInfo = User::where(['openid' => $openid])->first();
             if (empty($userInfo)){
                 //第一次授权,新增用户
-                $userInfo->openid = $openid;
-            }
-            if(!$userInfo->save()){
-                return response()->json(['code' => 1, 'msg' => '用户登录失败']);
+                $userModel = new User();
+                $userModel->openid = $openid;
+                $userModel->save();
+            }else{
+                //已授权,更新登陆时间
+                $userInfo->updated_at = date('Y-m-d H:i:s');
+                $userInfo->save();
             }
             return response()->json(['code' => 1, 'openid' => $result['openid']]);
         } catch(\Exception $e) {
