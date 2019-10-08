@@ -219,7 +219,7 @@ class Vote extends Base
         $date = date('Y-m-d');
         $voteInfo = VoteRecord::where(['vote_openid' => $this->openid, 'vote_date' => $date])->first();
         if (!empty($voteInfo)){
-            return $this->sendError('您今天已投出圣神的一票,每天只能投一票');
+            return $this->sendError('您今天已投出圣神的一票,每天只能投一票!');
         }
         DB::beginTransaction();
         try{
